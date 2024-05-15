@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+local nvim_lsp = require('lspconfig')
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -27,6 +28,13 @@ require('mason-lspconfig').setup({
 				capabilities = lsp_capabilities,
 			})
 		end,
+        ["omnisharp"] = function()
+            nvim_lsp.omnisharp.setup {
+                cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+                root_dir = nvim_lsp.util.root_pattern(".git", "*.sln"),
+                capabilities = capabilities
+            }
+        end,
 		lua_ls = function()
 			require('lspconfig').lua_ls.setup({
 				capabilities = lsp_capabilities,
@@ -67,8 +75,9 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
 		['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-		['<C-y>'] = cmp.mapping.confirm({ select = true }),
+		['<CR>'] = cmp.mapping.confirm({ select = true }),
 		['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close()
 	}),
 	snippet = {
 		expand = function(args)
