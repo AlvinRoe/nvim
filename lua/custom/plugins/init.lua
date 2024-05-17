@@ -4,9 +4,12 @@
 -- See the kickstart.nvim README for more information
 return {
 	{
-		"ThePrimeagen/harpoon",
-		config = function()
-			require("harpoon").setup()
-		end,
+		{
+			"ThePrimeagen/harpoon",
+			config = function()
+				require("harpoon").setup()
+			end
+		},
+		"Hoffs/omnisharp-extended-lsp.nvim",
 	},
 }
