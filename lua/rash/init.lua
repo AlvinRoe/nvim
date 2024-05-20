@@ -36,6 +36,11 @@ vim.keymap.set("n", "<leader>h7", ":lua require('harpoon.ui').nav_file(7)<CR>")
 vim.keymap.set("n", "<leader>h8", ":lua require('harpoon.ui').nav_file(8)<CR>")
 vim.keymap.set("n", "<leader>h9", ":lua require('harpoon.ui').nav_file(9)<CR>")
 
+--Fugitive keybinding
+vim.keymap.set("n", "<leader>gd", ":Gdiffsplit<CR>")
+vim.keymap.set("n", "<leader>gb", ":Git blame<CR>")
+vim.keymap.set("n", "<leader>ga", ":Git add %<CR>")
+
 --Background transparent
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
