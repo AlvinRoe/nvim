@@ -10,6 +10,7 @@ return {
 				require("harpoon").setup()
 			end
 		},
+		"tpope/vim-fugitive",
 		"Hoffs/omnisharp-extended-lsp.nvim",
 	},
 }
