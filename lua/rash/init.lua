@@ -1,13 +1,19 @@
 --Escape keybindings
 vim.keymap.set('i', 'jj', '<Esc>')
-vim.keymap.set('v', 'v', '<Esc>')
-vim.keymap.set('x', 'v', '<Esc>')
+vim.keymap.set({ 'v', 'x' }, 'v', '<Esc>')
 
 --Clibboard copy
 vim.keymap.set('n', '<C-c>', ':w !xclip -selection clipboard<CR><CR>')
+vim.keymap.set('n', '<C-y>', ':w !xclip -selection clipboard<CR><CR>')
 vim.keymap.set(
 	'v',
 	'<C-c>',
+	'"*y :call system("xclip -selection clipboard", @*)<CR>',
+	{ noremap = true, silent = true }
+)
+vim.keymap.set(
+	'v',
+	'<C-y>',
 	'"*y :call system("xclip -selection clipboard", @*)<CR>',
 	{ noremap = true, silent = true }
 )
@@ -40,6 +46,12 @@ vim.keymap.set("n", "<leader>h9", ":lua require('harpoon.ui').nav_file(9)<CR>")
 vim.keymap.set("n", "<leader>gd", ":Gdiffsplit<CR>")
 vim.keymap.set("n", "<leader>gb", ":Git blame<CR>")
 vim.keymap.set("n", "<leader>ga", ":Git add %<CR>")
+
+
+--Obsidian Keybindings
+vim.keymap.set({ 'n', 'v' }, 'gf', function() return require("obsidian").util.gf_passthrough() end)
+vim.keymap.set({ 'n', 'v' }, '<leader>oc', function() return require("obsidian").util.toggle_checkbox() end)
+vim.keymap.set({ 'n', 'v' }, '<leader>os', function() return require("obsidian").util.smart_action() end)
 
 --Background transparent
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
