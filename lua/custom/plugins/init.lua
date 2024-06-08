@@ -6,61 +6,70 @@ return {
 	{
 		{
 			"ThePrimeagen/harpoon",
-			config = function()
-				require("harpoon").setup()
-			end
+			branch = "harpoon2",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-telescope/telescope.nvim"
+			}
 		},
 		"tpope/vim-fugitive",
 		"Hoffs/omnisharp-extended-lsp.nvim",
 		{
-			"epwalsh/obsidian.nvim",
-			version = "*", -- recommended, use latest release instead of latest commit
-			lazy = true,
-			ft = "markdown",
-			-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-			-- event = {
-			--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-			--   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-			--   "BufReadPre path/to/my-vault/**.md",
-			--   "BufNewFile path/to/my-vault/**.md",
-			-- },
-			dependencies = {
-				"nvim-lua/plenary.nvim",
-			},
-			opts = {
-				workspaces = {
-					{
-						name = "personal",
-						path = "/Obsidian/Campfire/",
-					},
-					{
-						name = "work",
-						path = "/Obsidian/Campfire/",
-					},
-				},
-				mappings = {
-					["gf"] = {
-						action = function()
-							return require("obsidian").util.gf_passthrough()
-						end,
-						opts = { noremap = false, expr = true, buffer = true },
-					},
-					["<leader>oc"] = {
-						action = function()
-							return require("obsidian").util.toggle_checkbox()
-						end,
-						opts = { buffer = true },
-					},
-					["<leader>os"] = {
-						action = function()
-							return require("obsidian").util.smart_action()
-						end,
-						opts = { buffer = true, expr = true },
+			'nvim-orgmode/orgmode',
+			event = 'VeryLazy',
+			ft = { 'org' },
+			config = function()
+				-- Setup orgmode
+				require('orgmode').setup({
+					org_agenda_files = '~/.config/org/agenda/*.org',
+					org_default_notes_file = '~/.config/org/notes/note.org',
+					org_capture_templates = {
+						a = {
+							description = 'Agenda Item',
+							template = '* TODO %?\n %u',
+							target = '~/.config/org/agenda/agenda.org',
+						}
 					}
-				},
-				new_notes_location = "notes_subdir",
-				preferred_link_style = "wiki",
-			},
+				})
+
+				-- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
+				-- add ~org~ to ignore_install
+				-- require('nvim-treesitter.configs').setup({
+				--   ensure_installed = 'all',
+				--   ignore_install = { 'org' },
+				-- })
+			end,
 		},
-	}
+		{
+			'ldelossa/litee.nvim',
+			event = "VeryLazy",
+			opts = {
+				notify = { enabled = false },
+				panel = {
+					orientation = "bottom",
+					panel_size = 10,
+				},
+			},
+			config = function(_, opts) require('litee.lib').setup(opts) end
+		},
+		{
+			'ldelossa/litee-calltree.nvim',
+			dependencies = 'ldelossa/litee.nvim',
+			event = "VeryLazy",
+			opts = {
+				on_open = "panel",
+				map_resize_keys = false,
+			},
+			config = function(_, opts) require('litee.calltree').setup(opts) end
+		},
+		"stevearc/dressing.nvim",
+		{
+			"LintaoAmons/bookmarks.nvim",
+			tag = "v0.5.3", -- optional, pin the plugin at specific version for stability
+			dependencies = {
+				{ "nvim-telescope/telescope.nvim" },
+				{ "stevearc/dressing.nvim" } -- optional: to have the same UI shown in the GIF
+			}
+		}
+	},
 }

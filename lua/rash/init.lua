@@ -18,29 +18,18 @@ vim.keymap.set(
 	{ noremap = true, silent = true }
 )
 
---Register yp
+--General, personal keybindings.
 vim.keymap.set({ "v", "n" }, "<leader>y", function() vim.cmd('normal! "qy') end)
 vim.keymap.set({ "v", "n" }, "<leader>p", function() vim.cmd('normal! "qp') end)
+vim.keymap.set({ "v", "n" }, "J", '5j')
+vim.keymap.set({ "v", "n" }, "K", '5k')
+vim.keymap.set("n", "<leader>x", ":Ex<CR>")
+vim.keymap.set("n", "<A-w>", ":w<CR>")
+vim.keymap.set("n", "<leader>w", ":w<CR>")
+vim.keymap.set("n", "<leader>Q", ":wq<CR>")
 
---Harpoon Keybindings
-vim.keymap.set("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>")
-vim.keymap.set("n", "<leader>hs", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
-vim.keymap.set("n", "<leader>hi", ":lua require('harpoon.ui').nav_next()<CR>")
-vim.keymap.set("n", "<leader>hu", ":lua require('harpoon.ui').nav_prev()<CR>")
-vim.keymap.set("n", "<leader>hh", ":lua require('harpoon.ui').nav_file(1)<CR>")
-vim.keymap.set("n", "<leader>hj", ":lua require('harpoon.ui').nav_file(2)<CR>")
-vim.keymap.set("n", "<leader>hk", ":lua require('harpoon.ui').nav_file(3)<CR>")
-vim.keymap.set("n", "<leader>hl", ":lua require('harpoon.ui').nav_file(4)<CR>")
-vim.keymap.set("n", "<leader>h;", ":lua require('harpoon.ui').nav_file(5)<CR>")
-vim.keymap.set("n", "<leader>h1", ":lua require('harpoon.ui').nav_file(1)<CR>")
-vim.keymap.set("n", "<leader>h2", ":lua require('harpoon.ui').nav_file(2)<CR>")
-vim.keymap.set("n", "<leader>h3", ":lua require('harpoon.ui').nav_file(3)<CR>")
-vim.keymap.set("n", "<leader>h4", ":lua require('harpoon.ui').nav_file(4)<CR>")
-vim.keymap.set("n", "<leader>h5", ":lua require('harpoon.ui').nav_file(5)<CR>")
-vim.keymap.set("n", "<leader>h6", ":lua require('harpoon.ui').nav_file(6)<CR>")
-vim.keymap.set("n", "<leader>h7", ":lua require('harpoon.ui').nav_file(7)<CR>")
-vim.keymap.set("n", "<leader>h8", ":lua require('harpoon.ui').nav_file(8)<CR>")
-vim.keymap.set("n", "<leader>h9", ":lua require('harpoon.ui').nav_file(9)<CR>")
+--Harpoon
+require('rash.harpoon') -- Harpoon has a lot going on, so it has it's own script
 
 --Fugitive keybinding
 vim.keymap.set("n", "<leader>gd", ":Gdiffsplit<CR>")
@@ -56,6 +45,21 @@ vim.keymap.set({ 'n', 'v' }, '<leader>os', function() return require("obsidian")
 --Background transparent
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+
+--Call tree keymap and requires
+-- configure the litee.nvim library
+require('litee.lib').setup({})
+-- configure litee-calltree.nvim
+require('litee.calltree').setup({})
+vim.keymap.set({ 'n', 'v' }, '<leader>ti', ':lua vim.lsp.buf.incoming_calls()<CR>')
+vim.keymap.set({ 'n', 'v' }, '<leader>to', ':lua vim.lsp.buf.outgoing_calls()<CR>')
+
+-- Bookmarks
+vim.keymap.set({ "n", "v" }, "mm", "<cmd>BookmarksMark<cr>", { desc = "Mark current line into active BookmarkList." })
+vim.keymap.set({ "n", "v" }, "mo", "<cmd>BookmarksGoto<cr>", { desc = "Go to bookmark at current active BookmarkList" })
+vim.keymap.set({ "n", "v" }, "ma", "<cmd>BookmarksCommands<cr>", { desc = "Find and trigger a bookmark command." })
+vim.keymap.set({ "n", "v" }, "<leader>mg", "<cmd>BookmarksGotoRecent<cr>",
+	{ desc = "Go to latest visited/created Bookmark" })
 
 --Configurations for vim ie. tab
 require('rash.set')
